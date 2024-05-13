@@ -1,17 +1,21 @@
 {
   "dependencies": {
     "next": "^14.2.3",
+    "node-pg-migrate": "^6.2.2",
     "pg": "^8.11.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "dotenv-expand": "^11.0.6"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run services:up && next dev",
     "services:up": "docker compose -f infra/compose.yaml up -d",
-    "services:down": "docker compose -f infra/compose.yaml down"
+    "services:down": "docker compose -f infra/compose.yaml down",
+    "migration:create": "node-pg-migrate -m infra/migrations create",
+    "migration:up": "node-pg-migrate -m infra/migrations --envPath .env up"
   },
   "name": "zion",
   "description": "",
