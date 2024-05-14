@@ -41,9 +41,7 @@ async function runPendingMigrations() {
   }
 }
 
-const migrator = {
+export default Object.freeze({
   listPendingMigrations,
   runPendingMigrations,
-};
-
-export default migrator;
+});
