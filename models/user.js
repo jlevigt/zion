@@ -2,9 +2,41 @@ import bcryptjs from "bcryptjs";
 
 import database from "infra/database.js";
 
+async function findAll() {
+  const query = {
+    text: `
+      SELECT
+        *
+      FROM
+        users
+      `,
+  };
+  const results = await database.query(query);
+
+  return results.rows;
+}
+
+async function findOneByEmail(email) {
+  const query = {
+    text: `
+      SELECT
+        *
+      FROM
+        users
+      WHERE
+        LOWER(email) = LOWER($1)
+      LIMIT
+        1`,
+    values: [email],
+  };
+
+  const results = await database.query(query);
+
+  return results.rows[0];
+}
+
 async function create(userData) {
   const username_is_unique = await validateUniqueUsername(userData.username);
-  console.log(username_is_unique);
   if (!username_is_unique) {
     return { msg: "username is not valid" };
   }
@@ -66,5 +98,7 @@ async function validateUniqueEmail(email) {
 }
 
 export default Object.freeze({
+  findAll,
+  findOneByEmail,
   create,
 });
