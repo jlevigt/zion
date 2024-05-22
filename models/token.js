@@ -12,6 +12,16 @@ function create(email) {
   };
 }
 
+function validate(token) {
+  try {
+    jwt.verify(token, process.env.PRIVATE_KEY);
+    return;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export default Object.freeze({
   create,
+  validate,
 });
