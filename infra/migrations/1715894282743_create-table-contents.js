@@ -2,26 +2,41 @@ exports.up = (pgm) => {
   pgm.createTable("contents", {
     id: {
       type: "uuid",
-      default: pgm.func("gen_random_uuid()"),
-      notNull: true,
       primaryKey: true,
+      notNull: true,
+      default: pgm.func("gen_random_uuid()"),
     },
+
     owner_id: {
       type: "uuid",
       references: "users(id)",
-      notNull: false,
+      notNull: true,
+    },
+
+    event_time: {
+      type: "timestamptz",
+      notNull: true,
+    },
+
+    localtion: {
+      type: "varchar(100)",
+      notNull: true,
     },
 
     title: {
-      type: "varchar",
-      check: "length(title) <= 256",
+      type: "varchar(60)",
+      notNull: true,
+    },
+
+    description: {
+      type: "text",
       notNull: false,
     },
 
-    body: {
-      type: "text",
-      check: "length(body) <= 20000",
+    created_at: {
+      type: "timestampz",
       notNull: true,
+      default: pgm.func("CURRENT_TIMESTAMP"),
     },
   });
 };
