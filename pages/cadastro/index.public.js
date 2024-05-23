@@ -49,11 +49,16 @@ function SignUpForm() {
       onSubmit={handleSubmit}
       style={{
         height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}>
-      <TextInput label="Username" ref={usernameRef} />
+      <h1>Cadastro</h1>
+      <TextInput label="Nome de usuário" ref={usernameRef} />
       <TextInput label="Email" ref={emailRef} />
-      <TextInput label="Password" ref={passwordRef} />
-      <button type="submit">Cadastrar</button>
+      <TextInput label="Senha" ref={passwordRef} />
+      <br />
+      <button type="submit">Criar cadastro</button>
     </form>
   );
 }

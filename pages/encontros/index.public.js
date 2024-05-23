@@ -36,12 +36,17 @@ function ContentList() {
       style={{
         height: "100vh",
         listStyleType: "none",
+        display: "flex",
+        flexDirection: "row",
       }}>
       {posts.map((post) => (
-        <li key={post.id}>
+        <li
+          style={{
+            padding: 5,
+          }}
+          key={post.id}>
           Título: {post.title} <br />
           Corpo: {post.body} <br />
-          ---
         </li>
       ))}
     </ul>
@@ -50,4 +55,3 @@ function ContentList() {
 
 // TODO:
 // Criar componente Content
-// Criar componente RenderContent

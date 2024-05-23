@@ -4,7 +4,7 @@ import { useRef } from "react";
 import DefaultLayout from "components/DefaultLayout";
 import TextInput from "components/TextInput";
 
-export default function Post() {
+export default function Publicar() {
   return (
     <DefaultLayout>
       <PostForm />
@@ -45,10 +45,14 @@ function PostForm() {
     <form
       onSubmit={handleSubmit}
       style={{
-        height: "100vh",
+        height: "89vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}>
       <TextInput label="Título" ref={titleRef} />
       <TextInput label="Texto" ref={bodyRef} />
+      <br />
       <button type="submit">Publicar</button>
     </form>
   );

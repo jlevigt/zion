@@ -1,17 +1,8 @@
 import { useRef } from "react";
 
-import DefaultLayout from "components/DefaultLayout";
 import TextInput from "components/TextInput";
 
-export default function Login() {
-  return (
-    <DefaultLayout>
-      <LoginForm />
-    </DefaultLayout>
-  );
-}
-
-function LoginForm() {
+export default function LoginForm() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
@@ -44,10 +35,18 @@ function LoginForm() {
       onSubmit={handleSubmit}
       style={{
         height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}>
       <TextInput label="Email" ref={emailRef} />
       <TextInput label="Password" ref={passwordRef} />
-      <button type="submit">Login</button>
+      <br />
+      <button type="submit">Login</button> <br />
+      <a href="/cadastro">Crie sua conta</a>
     </form>
   );
 }
+
+// TODO:
+// Adicionar área que leva para /cadastro

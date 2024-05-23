@@ -1,9 +1,15 @@
-export default function TextInput({ label, Ref }) {
+import { forwardRef } from "react";
+
+function TextInput({ label }, ref) {
   return (
     <div>
       {label && <label>{label}</label>}
       <br />
-      <input type="text" ref={Ref} />
+      <input type="text" ref={ref} />
     </div>
   );
 }
+
+const ForwardedTextInput = forwardRef(TextInput);
+
+export default ForwardedTextInput;

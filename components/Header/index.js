@@ -31,24 +31,7 @@ export default function HeaderComponent() {
     <header style={headerStyle}>
       <nav style={navStyle}>
         <ul style={navListStyle}>
-          <li style={navItemStyle}>
-            <a
-              href="/cadastro"
-              style={navLinkStyle}
-              onMouseOver={(e) => (e.target.style.textDecoration = "underline")}
-              onMouseOut={(e) => (e.target.style.textDecoration = "none")}>
-              Cadastro
-            </a>
-          </li>
-          <li style={navItemStyle}>
-            <a
-              href="/login"
-              style={navLinkStyle}
-              onMouseOver={(e) => (e.target.style.textDecoration = "underline")}
-              onMouseOut={(e) => (e.target.style.textDecoration = "none")}>
-              Login
-            </a>
-          </li>
+          <li style={navItemStyle}>Zion</li>
           <li style={navItemStyle}>
             <a
               href="/encontros"
