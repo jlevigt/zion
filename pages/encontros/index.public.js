@@ -38,20 +38,36 @@ function ContentList() {
         listStyleType: "none",
         display: "flex",
         flexDirection: "row",
+        flexWrap: "wrap",
       }}>
       {posts.map((post) => (
         <li
           style={{
-            padding: 5,
+            padding: 20,
+            margin: 10,
+            border: "1px solid #ccc",
+            borderRadius: 10,
+            width: "30%",
+            boxSizing: "border-box",
           }}
           key={post.id}>
-          Título: {post.title} <br />
-          Corpo: {post.body} <br />
+          <h3>{post.title}</h3>
+          <p>
+            <strong>Localização:</strong> {post.location}
+          </p>
+          <p>
+            <strong>Data e Hora do Evento:</strong> {new Date(post.event_time).toLocaleString()}
+          </p>
+          <p>
+            <strong>Descrição:</strong> {post.description}
+          </p>
+          <p>
+            <small>
+              <strong>Criado em:</strong> {new Date(post.created_at).toLocaleString()}
+            </small>
+          </p>
         </li>
       ))}
     </ul>
   );
 }
-
-// TODO:
-// Criar componente Content

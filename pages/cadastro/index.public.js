@@ -40,7 +40,7 @@ function SignUpForm() {
     });
 
     if (response.status === 201) {
-      router.push("/login");
+      router.push("/");
     }
   }
 

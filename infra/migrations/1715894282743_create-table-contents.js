@@ -9,8 +9,8 @@ exports.up = (pgm) => {
 
     owner_id: {
       type: "uuid",
-      references: "users(id)",
       notNull: true,
+      references: '"users"',
     },
 
     event_time: {
@@ -18,7 +18,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
 
-    localtion: {
+    location: {
       type: "varchar(100)",
       notNull: true,
     },
@@ -30,15 +30,16 @@ exports.up = (pgm) => {
 
     description: {
       type: "text",
-      notNull: false,
     },
 
     created_at: {
-      type: "timestampz",
+      type: "timestamptz",
       notNull: true,
       default: pgm.func("CURRENT_TIMESTAMP"),
     },
   });
 };
 
-exports.down = (pgm) => {};
+exports.down = (pgm) => {
+  pgm.dropTable("contents");
+};
