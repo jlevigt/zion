@@ -13,8 +13,13 @@ exports.up = (pgm) => {
       references: '"users"',
     },
 
+    event_day: {
+      type: "varchar(30)",
+      notNull: true,
+    },
+
     event_time: {
-      type: "timestamptz",
+      type: "integer",
       notNull: true,
     },
 

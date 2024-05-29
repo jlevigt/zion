@@ -22,9 +22,9 @@ export default async function contents(request, response) {
         return response.status(401).json({ error: "User not authorized" });
       }
 
-      const { title, description, event_time, location } = request.body;
+      const { title, description, event_day, event_time, location } = request.body;
 
-      if (!title || !description || !event_time || !location) {
+      if (!title || !description || !event_day || !event_time || !location) {
         return response.status(400).json({ error: "Missing required fields" });
       }
 
@@ -32,6 +32,7 @@ export default async function contents(request, response) {
         owner_id: userStored.id,
         title,
         description,
+        event_day,
         event_time,
         location,
       };

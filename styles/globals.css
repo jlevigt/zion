@@ -1,0 +1,19 @@
+/* styles/globals.css */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  background-color: #000060;
+}
+
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+a {
+  color: white;
+  text-decoration: underline;
+}

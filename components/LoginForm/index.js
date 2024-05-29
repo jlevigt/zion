@@ -1,8 +1,10 @@
+import { useRouter } from "next/router";
 import { useRef } from "react";
 
 import TextInput from "components/TextInput";
 
 export default function LoginForm() {
+  const router = useRouter();
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
@@ -27,6 +29,7 @@ export default function LoginForm() {
     const token = JSON.stringify(await response.json());
     if (response.status == 201) {
       localStorage.setItem("auth", token);
+      router.push("/encontros");
     }
   }
 
@@ -39,6 +42,7 @@ export default function LoginForm() {
         flexDirection: "column",
         alignItems: "center",
       }}>
+      <h1>Entrar</h1>
       <TextInput label="Email" ref={emailRef} />
       <TextInput label="Password" ref={passwordRef} />
       <br />

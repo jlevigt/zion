@@ -34,7 +34,7 @@ function ContentList() {
   return (
     <ul
       style={{
-        height: "100vh",
+        // height: "100vh",
         listStyleType: "none",
         display: "flex",
         flexDirection: "row",
@@ -56,7 +56,10 @@ function ContentList() {
             <strong>Localização:</strong> {post.location}
           </p>
           <p>
-            <strong>Data e Hora do Evento:</strong> {new Date(post.event_time).toLocaleString()}
+            <strong>Data do Evento:</strong> {post.event_day}
+          </p>
+          <p>
+            <strong>Hora do Evento:</strong> {post.event_time}
           </p>
           <p>
             <strong>Descrição:</strong> {post.description}

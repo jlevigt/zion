@@ -16,6 +16,7 @@ function PostForm() {
 
   const titleRef = useRef();
   const descriptionRef = useRef();
+  const eventDayRef = useRef();
   const eventTimeRef = useRef();
   const locationRef = useRef();
 
@@ -24,6 +25,7 @@ function PostForm() {
 
     const title = titleRef.current.value;
     const description = descriptionRef.current.value;
+    const eventDay = eventDayRef.current.value;
     const eventTime = eventTimeRef.current.value;
     const location = locationRef.current.value;
 
@@ -37,6 +39,7 @@ function PostForm() {
       body: JSON.stringify({
         title,
         description,
+        event_day: eventDay,
         event_time: eventTime,
         location,
       }),
@@ -51,14 +54,16 @@ function PostForm() {
     <form
       onSubmit={handleSubmit}
       style={{
-        height: "89vh",
+        // height: "89vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}>
+      <h1>Publicar</h1>
       <TextInput label="Título" ref={titleRef} />
       <TextInput label="Localização" ref={locationRef} />
-      <TextInput label="Data e Hora do Evento" type="datetime-local" ref={eventTimeRef} />
+      <TextInput label="Data do Evento" type="date" ref={eventDayRef} />
+      <TextInput label="Hora do Evento" type="time" ref={eventTimeRef} />
       <TextInput label="Descrição" ref={descriptionRef} />
       <br />
       <button type="submit">Publicar</button>

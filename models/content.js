@@ -19,13 +19,20 @@ async function create(contentData) {
   const query = {
     text: `
       INSERT INTO
-        contents (owner_id, title, body)
+        contents (owner_id, title, description, event_day, event_time, location)
       VALUES
-        ($1, $2, $3)
+        ($1, $2, $3, $4, $5, $6)
       RETURNING
         *  
     ;`,
-    values: [contentData.owner_id, contentData.title, contentData.body],
+    values: [
+      contentData.owner_id,
+      contentData.title,
+      contentData.description,
+      contentData.event_day,
+      contentData.event_time,
+      contentData.location,
+    ],
   };
 
   const results = await database.query(query);
