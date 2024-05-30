@@ -23,6 +23,11 @@ export default function Header() {
               Perfil
             </a>
           </li>
+          <li>
+            <a href="/login" className="button-link">
+              Login
+            </a>
+          </li>
         </ul>
       </nav>
     </header>
