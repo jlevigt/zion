@@ -1,19 +1,61 @@
-/* styles/globals.css */
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-
   background-color: #000060;
+
+  color: #ffffff;
+
+  margin: 0;
 }
 
-html,
-body,
-#__next {
-  height: 100%;
+header {
+  background-color: #000080;
+
+  display: flex;
+}
+
+nav ul {
+  list-style: none; /* remove as bolinhas */
+
+  display: flex; /* alinha os itens horizontalmente */
+  padding: 5px; /* remove o padding padrão */
+  margin: 5px; /* remove a margem padrão */
+}
+
+nav li {
+  margin-right: 10px; /* adiciona um espaço entre os itens */
 }
 
 a {
-  color: white;
+  color: #ffffff;
   text-decoration: underline;
+}
+
+.button-link {
+  background-color: #007bff; /* cor de fundo azul */
+
+  color: #fff; /* cor do texto branca */
+  text-decoration: none; /* remova o sublinhado padrão */
+
+  border: none; /* remova a borda padrão */
+  border-radius: 5px; /* bordas arredondadas */
+  display: inline-block;
+  padding: 10px 20px;
+
+  cursor: pointer; /* cursor de mão para indicar clicabilidade */
+}
+
+.ulStyle {
+  list-style-type: none;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.liStyle {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin: 10px;
+  padding: 20px;
+  width: 30%;
 }

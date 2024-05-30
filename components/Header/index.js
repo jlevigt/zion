@@ -1,53 +1,26 @@
-export default function HeaderComponent() {
-  const headerStyle = {
-    backgroundColor: "navy",
-    color: "white",
-    padding: "1rem",
-  };
-
-  const navStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-  };
-
-  const navListStyle = {
-    listStyleType: "none",
-    gap: "1rem",
-    display: "flex",
-    padding: 0,
-    margin: 0,
-  };
-
-  const navItemStyle = {
-    marginRight: "10px",
-  };
-
-  const navLinkStyle = {
-    color: "white",
-    textDecoration: "none",
-  };
-
+export default function Header() {
   return (
-    <header style={headerStyle}>
-      <nav style={navStyle}>
-        <ul style={navListStyle}>
-          <li style={navItemStyle}>Zion</li>
-          <li style={navItemStyle}>
-            <a
-              href="/encontros"
-              style={navLinkStyle}
-              onMouseOver={(e) => (e.target.style.textDecoration = "underline")}
-              onMouseOut={(e) => (e.target.style.textDecoration = "none")}>
-              Encontros
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="/" className="button-link">
+              Zion
             </a>
           </li>
-          <li style={navItemStyle}>
-            <a
-              href="/publicar"
-              style={navLinkStyle}
-              onMouseOver={(e) => (e.target.style.textDecoration = "underline")}
-              onMouseOut={(e) => (e.target.style.textDecoration = "none")}>
+          <li>
+            <a href="/publicar" className="button-link">
               Publicar
+            </a>
+          </li>
+          <li>
+            <a href="/membros" className="button-link">
+              Membros
+            </a>
+          </li>
+          <li>
+            <a href="/perfil" className="button-link">
+              Perfil
             </a>
           </li>
         </ul>
@@ -55,7 +28,3 @@ export default function HeaderComponent() {
     </header>
   );
 }
-
-// TODO:
-// Criar if para existência de user no LocalStorage
-// Gerar interface com base no resultado de ifs

@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs";
 import token from "models/token";
 import user from "models/user";
 
-export default async function tokens(request, response) {
+export default async function authHandler(request, response) {
   if (request.method == "POST") {
     const { email, password } = request.body;
 

@@ -1,14 +1,15 @@
 import user from "models/user";
 import token from "models/token";
 
-export default async function users(request, response) {
+export default async function usersHandler(request, response) {
   if (request.method == "GET") {
-    const bearerToken = JSON.parse(request.headers.auth);
-    if (!bearerToken) {
+    if (!request.headers.auth) {
       return response.status(400).json({ msg: "token não foi enviado no header da request" });
     }
 
-    token.validate(bearerToken.auth);
+    const auth = JSON.parse(request.headers.auth);
+
+    token.validate(auth.auth);
 
     const usersList = await user.findAll();
 

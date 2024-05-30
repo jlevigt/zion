@@ -1,14 +1,8 @@
 import { useRouter } from "next/router";
 import { useRef } from "react";
-import DefaultLayout from "components/DefaultLayout";
-import TextInput from "components/TextInput";
 
 export default function Publicar() {
-  return (
-    <DefaultLayout>
-      <PostForm />
-    </DefaultLayout>
-  );
+  return <PostForm />;
 }
 
 function PostForm() {
@@ -37,34 +31,41 @@ function PostForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title,
-        description,
+        title: title,
+        description: description,
         event_day: eventDay,
         event_time: eventTime,
-        location,
+        location: location,
       }),
     });
 
     if (response.status === 201) {
-      router.push("/encontros");
+      router.push("/");
     }
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        // height: "89vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}>
+    <form onSubmit={handleSubmit}>
       <h1>Publicar</h1>
-      <TextInput label="Título" ref={titleRef} />
-      <TextInput label="Localização" ref={locationRef} />
-      <TextInput label="Data do Evento" type="date" ref={eventDayRef} />
-      <TextInput label="Hora do Evento" type="time" ref={eventTimeRef} />
-      <TextInput label="Descrição" ref={descriptionRef} />
+      <label>Título</label>
+      <br />
+      <input ref={titleRef}></input>
+      <br />
+      <label>Localização</label>
+      <br />
+      <input ref={locationRef}></input>
+      <br />
+      <label>Dia</label>
+      <br />
+      <input ref={eventDayRef}></input>
+      <br />
+      <label>Horário</label>
+      <br />
+      <input ref={eventTimeRef}></input>
+      <br />
+      <label>Descrição</label>
+      <br />
+      <input ref={descriptionRef}></input>
       <br />
       <button type="submit">Publicar</button>
     </form>

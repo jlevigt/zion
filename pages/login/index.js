@@ -1,10 +1,13 @@
 import { useRouter } from "next/router";
 import { useRef } from "react";
 
-import TextInput from "components/TextInput";
+export default function Login() {
+  return <LoginForm />;
+}
 
-export default function LoginForm() {
+function LoginForm() {
   const router = useRouter();
+
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
@@ -14,7 +17,7 @@ export default function LoginForm() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    const response = await fetch("/api/v1/tokens", {
+    const response = await fetch("/api/v1/auth", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -29,28 +32,23 @@ export default function LoginForm() {
     const token = JSON.stringify(await response.json());
     if (response.status == 201) {
       localStorage.setItem("auth", token);
-      router.push("/encontros");
+      router.push("/");
     }
   }
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}>
-      <h1>Entrar</h1>
-      <TextInput label="Email" ref={emailRef} />
-      <TextInput label="Password" ref={passwordRef} />
+    <form onSubmit={handleSubmit}>
+      <h1>Login</h1>
+      <label>email</label>
       <br />
-      <button type="submit">Login</button> <br />
-      <a href="/cadastro">Crie sua conta</a>
+      <input ref={emailRef}></input>
+      <br />
+      <label>password</label>
+      <br />
+      <input ref={passwordRef}></input>
+      <br />
+      <button type="submit">Entrar</button>
+      <br />
+      <a href="/cadastro">Criar cadastro</a>
     </form>
   );
 }
-
-// TODO:
-// Adicionar área que leva para /cadastro

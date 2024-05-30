@@ -20,11 +20,7 @@
     "migration:up": "node-pg-migrate -m infra/migrations --envPath .env up"
   },
   "name": "zion",
-  "description": "",
-  "version": "1.0.0",
-  "keywords": [
-    "zion"
-  ],
+  "version": "0.1.0",
   "author": "Levi",
   "license": "MIT"
 }
