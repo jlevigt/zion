@@ -29,18 +29,15 @@ export default function UsersList() {
   return (
     <ul className="ulStyle">
       {users.map((user) => (
-        <li className="liStyle" key={user.id}>
+        <li className="liStyle" key={user.email}>
           <p>
             <strong>Username:</strong> {user.username}
           </p>
           <p>
-            <strong>Email:</strong> {user.email}
+            <strong>Role:</strong> {user.role}
           </p>
           <p>
-            <strong>Líder:</strong> {user.is_admin ? "Sim" : "Não"}
-          </p>
-          <p>
-            <strong>Criado em:</strong> {new Date(user.created_at).toLocaleDateString()}
+            <strong>Criado em:</strong> {new Date(user.created_at).toLocaleDateString("pt-BR")}
           </p>
         </li>
       ))}

@@ -1,38 +1,30 @@
 exports.up = (pgm) => {
   pgm.createTable("users", {
     id: {
-      type: "uuid",
+      type: "UUID",
       primaryKey: true,
-      notNull: true,
       default: pgm.func("gen_random_uuid()"),
     },
-
     username: {
-      type: "varchar(30)",
+      type: "VARCHAR(60)",
       notNull: true,
       unique: true,
     },
-
     email: {
-      type: "varchar(100)",
+      type: "VARCHAR(255)",
       notNull: true,
       unique: true,
     },
-
     password: {
-      type: "varchar(60)",
+      type: "VARCHAR(60)",
       notNull: true,
     },
-
-    is_admin: {
-      type: "boolean",
-      notNull: true,
-      default: false,
+    role: {
+      type: "VARCHAR(20)",
+      default: "in_solicitation",
     },
-
     created_at: {
-      type: "timestamptz",
-      notNull: true,
+      type: "TIMESTAMP",
       default: pgm.func("CURRENT_TIMESTAMP"),
     },
   });

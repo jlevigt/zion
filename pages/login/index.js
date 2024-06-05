@@ -1,8 +1,13 @@
 import { useRouter } from "next/router";
 import { useRef } from "react";
 
+import Layout from "components/Layout";
 export default function Login() {
-  return <LoginForm />;
+  return (
+    <Layout customContainerClass="form-container">
+      <LoginForm />
+    </Layout>
+  );
 }
 
 function LoginForm() {
@@ -31,24 +36,30 @@ function LoginForm() {
 
     const token = JSON.stringify(await response.json());
     if (response.status == 201) {
-      localStorage.setItem("auth", token);
+      localStorage.setItem("auth", token); // colocar user em outra variável do localStorage
       router.push("/");
     }
   }
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Login</h1>
-      <label>email</label>
-      <br />
-      <input ref={emailRef}></input>
-      <br />
-      <label>password</label>
-      <br />
-      <input ref={passwordRef}></input>
-      <br />
-      <button type="submit">Entrar</button>
-      <br />
-      <a href="/cadastro">Criar cadastro</a>
-    </form>
+    <div className="main-container">
+      <form onSubmit={handleSubmit}>
+        <h1>Login</h1>
+        <label>Email</label>
+
+        <input ref={emailRef}></input>
+
+        <label>Password</label>
+
+        <input ref={passwordRef}></input>
+
+        <button type="submit" className="submit-button">
+          Entrar
+        </button>
+
+        <a href="/cadastro" style={{ color: "blue" }}>
+          Criar cadastro
+        </a>
+      </form>
+    </div>
   );
 }

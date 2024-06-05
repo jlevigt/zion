@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-export default function ContentList() {
+export default function MeetingsList() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch("/api/v1/contents");
+        const response = await fetch("/api/v1/meetings");
         if (response.ok) {
           const data = await response.json();
           setPosts(data);
@@ -25,18 +25,18 @@ export default function ContentList() {
     <ul className="ulStyle">
       {posts.map((post) => (
         <li className="liStyle" key={post.id}>
-          <h3>{post.title}</h3>
           <p>
-            <strong>Localização:</strong> {post.location}
+            <strong>Data:</strong> {new Date(post.day).toLocaleDateString("pt-BR")}
           </p>
           <p>
-            <strong>Data do Evento:</strong> {post.event_day}
+            <strong>Horário:</strong> {post.time}
           </p>
           <p>
-            <strong>Hora do Evento:</strong> {post.event_time}:00
+            <strong>Lugar:</strong> {post.location}
           </p>
+
           <p>
-            <strong>Descrição:</strong> {post.description}
+            <strong>Tema:</strong> {post.theme}
           </p>
         </li>
       ))}

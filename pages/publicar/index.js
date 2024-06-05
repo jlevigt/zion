@@ -1,29 +1,32 @@
+import Layout from "components/Layout";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 
 export default function Publicar() {
-  return <PostForm />;
+  return (
+    <Layout customContainerClass="form-container">
+      <PostForm />
+    </Layout>
+  );
 }
 
 function PostForm() {
   const router = useRouter();
 
-  const titleRef = useRef();
-  const descriptionRef = useRef();
-  const eventDayRef = useRef();
-  const eventTimeRef = useRef();
+  const dayRef = useRef();
+  const timeRef = useRef();
   const locationRef = useRef();
+  const themeRef = useRef();
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const title = titleRef.current.value;
-    const description = descriptionRef.current.value;
-    const eventDay = eventDayRef.current.value;
-    const eventTime = eventTimeRef.current.value;
+    const day = dayRef.current.value;
+    const Time = timeRef.current.value;
     const location = locationRef.current.value;
+    const theme = themeRef.current.value;
 
-    const response = await fetch("/api/v1/contents", {
+    const response = await fetch("/api/v1/meetings", {
       method: "POST",
       headers: {
         auth: localStorage.getItem("auth"),
@@ -31,11 +34,10 @@ function PostForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: title,
-        description: description,
-        event_day: eventDay,
-        event_time: eventTime,
+        day: day,
+        time: Time,
         location: location,
+        theme: theme,
       }),
     });
 
@@ -47,27 +49,22 @@ function PostForm() {
   return (
     <form onSubmit={handleSubmit}>
       <h1>Publicar</h1>
-      <label>Título</label>
-      <br />
-      <input ref={titleRef}></input>
-      <br />
-      <label>Localização</label>
-      <br />
-      <input ref={locationRef}></input>
-      <br />
+
       <label>Dia</label>
-      <br />
-      <input ref={eventDayRef}></input>
-      <br />
-      <label>Horário</label>
-      <br />
-      <input ref={eventTimeRef}></input>
-      <br />
-      <label>Descrição</label>
-      <br />
-      <input ref={descriptionRef}></input>
-      <br />
-      <button type="submit">Publicar</button>
+      <input ref={dayRef} type="date" lang="pt-BR"></input>
+
+      <label>Horário _ _:_ _</label>
+      <input ref={timeRef} type="time"></input>
+
+      <label>Lugar</label>
+      <input ref={locationRef}></input>
+
+      <label>Tema</label>
+      <input ref={themeRef}></input>
+
+      <button type="submit" className="submit-button">
+        Publicar
+      </button>
     </form>
   );
 }

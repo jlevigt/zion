@@ -1,8 +1,13 @@
+import Layout from "components/Layout";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 
 export default function Cadastro() {
-  return <SignUpForm />;
+  return (
+    <Layout customContainerClass="form-container">
+      <SignUpForm />
+    </Layout>
+  );
 }
 
 function SignUpForm() {
@@ -45,19 +50,19 @@ function SignUpForm() {
   return (
     <form onSubmit={handleSubmit}>
       <h1>Cadastro</h1>
-      <label>username</label>
-      <br />
+
+      <label>Username</label>
       <input ref={usernameRef}></input>
-      <br />
-      <label>email</label>
-      <br />
+
+      <label>Email</label>
       <input ref={emailRef}></input>
-      <br />
-      <label>password</label>
-      <br />
+
+      <label>Password</label>
       <input ref={passwordRef}></input>
-      <br />
-      <button type="submit">Cadastrar</button>
+
+      <button type="submit" className="submit-button">
+        Cadastrar
+      </button>
     </form>
   );
 }

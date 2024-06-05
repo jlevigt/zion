@@ -2,52 +2,17 @@ import bcryptjs from "bcryptjs";
 
 import database from "infra/database.js";
 
-async function findAll() {
-  const query = {
-    text: `
-      SELECT
-        id, username, email, is_admin, created_at
-      FROM
-        users
-      `,
-  };
-  const results = await database.query(query);
+const COST = 1;
 
-  return results.rows;
-}
-
-async function findOneByEmail(email) {
-  const query = {
-    text: `
-      SELECT
-        *
-      FROM
-        users
-      WHERE
-        LOWER(email) = LOWER($1)
-      LIMIT
-        1`,
-    values: [email],
-  };
-
-  const results = await database.query(query);
-
-  return results.rows[0];
-}
-
-async function create(userData) {
-  const username_is_unique = await validateUniqueUsername(userData.username);
-  if (!username_is_unique) {
-    return { msg: "username is not valid" };
+async function createUser(userData) {
+  if (!(await isUniqueUsername(userData.username))) {
+    return { msg: "username já é usado" };
+  }
+  if (!(await isUniqueEmail(userData.email))) {
+    return { msg: "email já é usado" };
   }
 
-  const email_is_unique = await validateUniqueEmail(userData.email);
-  if (!email_is_unique) {
-    return { msg: "email is not valid" };
-  }
-
-  const saltRounds = 14;
-  userData.password = await bcryptjs.hash(userData.password, saltRounds);
+  userData.password = await bcryptjs.hash(userData.password, COST);
 
   const query = {
     text: `
@@ -57,48 +22,95 @@ async function create(userData) {
         ($1, $2, $3)
       RETURNING
         *
-      ;`,
+      `,
     values: [userData.username, userData.email, userData.password],
   };
 
   const results = await database.query(query);
-  const newUser = results.rows[0];
-
-  return newUser;
+  return results.rows[0];
 }
 
-async function validateUniqueUsername(username) {
+async function listUsers() {
   const query = {
-    text: "SELECT username FROM users WHERE LOWER(username) = LOWER($1)",
-    values: [username],
+    text: `
+      SELECT
+        username, role, created_at
+      FROM
+        users
+      `,
   };
 
   const results = await database.query(query);
-
-  if (results.rowCount > 0) {
-    return 0;
-  }
-
-  return 1;
+  return results.rows;
 }
 
-async function validateUniqueEmail(email) {
+async function findUserByEmail(email) {
   const query = {
-    text: "SELECT email FROM users WHERE LOWER(email) = LOWER($1)",
+    text: `
+      SELECT
+        *
+      FROM
+        users
+      WHERE
+        LOWER(email) = LOWER($1)
+      LIMIT
+        1
+      `,
     values: [email],
   };
 
   const results = await database.query(query);
+  return results.rows[0];
+}
 
-  if (results.rowCount > 0) {
-    return 0;
+async function isUniqueUsername(username) {
+  try {
+    const query = {
+      text: `
+        SELECT
+          username
+        FROM
+          users
+        WHERE
+          LOWER(username) = LOWER($1)
+        `,
+      values: [username],
+    };
+
+    const results = await database.query(query);
+
+    return results.rowCount === 0; // Se não há resultados, o nome de usuário é único
+  } catch (error) {
+    console.error("Erro ao validar nome de usuário único:", error);
+    return false; // Retorna false em caso de erro para indicar que a validação falhou
   }
+}
 
-  return 1;
+async function isUniqueEmail(email) {
+  try {
+    const query = {
+      text: `
+        SELECT
+          email
+        FROM
+          users
+        WHERE
+          LOWER(email) = LOWER($1)
+        `,
+      values: [email],
+    };
+
+    const results = await database.query(query);
+
+    return results.rowCount === 0; // Se não há resultados, o email é único
+  } catch (error) {
+    console.error("Erro ao validar email único:", error);
+    return false; // Retorna false em caso de erro para indicar que a validação falhou
+  }
 }
 
 export default Object.freeze({
-  findAll,
-  findOneByEmail,
-  create,
+  createUser,
+  listUsers,
+  findUserByEmail,
 });
