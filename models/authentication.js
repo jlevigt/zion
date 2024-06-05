@@ -4,8 +4,9 @@ import user from "models/user";
 
 const EXPIRATION_IN_SECONDS = 60 * 60 * 24; // 1 dia
 
-function createJwt(email) {
-  const role = user.findUserByEmail(email).role;
+async function createJwt(email) {
+  const findedUser = await user.findUserByEmail(email);
+  const role = findedUser.role;
 
   const payload = {
     email: email,

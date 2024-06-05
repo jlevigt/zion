@@ -4,6 +4,18 @@ import user from "models/user";
 export default async function usersHandler(request, response) {
   switch (request.method) {
     case "GET":
+      // authentication
+      if (!request.headers.auth) {
+        return response.status(401).json({ msg: "token não foi enviado no header da request" });
+      }
+
+      try {
+        const token = JSON.parse(request.headers.auth);
+        authentication.verifyJwt(token); // aplicar error handling
+      } catch (error) {
+        return response.status(401).json({ err: "Não possui autenticação" });
+      }
+
       return usersGetHandler(request, response);
     case "POST":
       return usersPostHandler(request, response);
@@ -14,13 +26,6 @@ export default async function usersHandler(request, response) {
 }
 
 async function usersGetHandler(request, response) {
-  if (!request.headers.auth) {
-    return response.status(400).json({ msg: "token não foi enviado no header da request" });
-  }
-
-  const token = JSON.parse(request.headers.auth);
-  authentication.verifyJwt(token); // aplicar error handling
-
   const usersList = await user.listUsers();
   return response.status(200).json(usersList);
 }

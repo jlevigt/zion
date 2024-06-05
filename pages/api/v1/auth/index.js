@@ -16,8 +16,9 @@ export default async function authHandler(request, response) {
 }
 
 async function authGetHandler(request, response) {
-  const token = request.headers.auth;
   try {
+    const token = request.headers.auth;
+    console.log(token);
     authentication.verifyJwt(token);
     return response.status(200).json({ msg: "Token válido" });
   } catch (err) {
@@ -41,6 +42,6 @@ async function authPostHandler(request, response) {
     throw error;
   }
 
-  const auth = authentication.createJwt(email);
+  const auth = await authentication.createJwt(email);
   return response.status(201).json(auth);
 }

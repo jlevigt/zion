@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 
 export default function MeetingsList() {
+  const token = localStorage.getItem("auth");
+
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch("/api/v1/meetings");
+        const response = await fetch("/api/v1/meetings", {
+          headers: {
+            auth: `${JSON.parse(token)}`,
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setPosts(data);

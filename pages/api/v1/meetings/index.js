@@ -1,10 +1,23 @@
+import authentication from "models/authentication";
 import meeting from "models/meeting";
 
 export default async function meetingsHandler(request, response) {
+  // authentication
+  if (!request.headers.auth) {
+    return response.status(401).json({ msg: "token não foi enviado no header da request" });
+  }
+  try {
+    const token = request.headers.auth;
+    authentication.verifyJwt(token); // aplicar error handling
+  } catch (error) {
+    return response.status(401).json({ err: "Não possui autenticação" });
+  }
+
   switch (request.method) {
     case "GET":
       return meetingsGetHandler(response);
     case "POST":
+      // authorization
       return meetingsPostHandler(request, response);
     default:
       response.setHeader("Allow", ["GET", "POST"]);
@@ -31,6 +44,13 @@ async function meetingsPostHandler(request, response) {
     theme: theme,
   };
 
-  const createdMeeting = await meeting.createMeeting(meetingData);
+  let createdMeeting;
+  try {
+    createdMeeting = await meeting.createMeeting(meetingData);
+  } catch (error) {
+    console.log(error);
+    return response.status(400).json({ msg: "Bad request" });
+  }
+
   return response.status(201).json(createdMeeting);
 }

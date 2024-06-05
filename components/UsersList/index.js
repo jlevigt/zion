@@ -13,7 +13,6 @@ export default function UsersList() {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setusers(data);
         } else {
           console.error("Failed to fetch users:", response.statusText);
