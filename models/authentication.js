@@ -5,7 +5,7 @@ import user from "models/user";
 const EXPIRATION_IN_SECONDS = 60 * 60 * 24; // 1 dia
 
 async function createJwt(email) {
-  const findedUser = await user.findUserByEmail(email);
+  const findedUser = await user.findOneByEmail(email);
   const role = findedUser.role;
 
   const payload = {
@@ -19,7 +19,8 @@ async function createJwt(email) {
 }
 
 function verifyJwt(token) {
-  return jwt.verify(token, process.env.PRIVATE_KEY);
+  const verified = jwt.verify(token, process.env.PRIVATE_KEY);
+  return verified;
 }
 
 export default Object.freeze({

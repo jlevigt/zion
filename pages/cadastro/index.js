@@ -1,6 +1,7 @@
-import Layout from "components/Layout";
 import { useRouter } from "next/router";
 import { useRef } from "react";
+
+import Layout from "components/Layout";
 
 export default function Cadastro() {
   return (
@@ -25,10 +26,9 @@ function SignUpForm() {
     const password = passwordRef.current.value;
 
     try {
-      const response = await fetch(`/api/v1/users`, {
+      const response = await fetch("/api/v1/users", {
         method: "POST",
         headers: {
-          Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -39,11 +39,12 @@ function SignUpForm() {
       });
 
       if (response.status === 201) {
-        router.push("/login");
-        return;
+        return router.push("/login");
       }
+
+      alert("Alguma coisa deu errado");
     } catch (error) {
-      console.error(error);
+      alert("Alguma coisa deu errado");
     }
   }
 

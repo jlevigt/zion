@@ -1,6 +1,6 @@
 import database from "infra/database";
 
-async function createMeeting(meetingData) {
+async function create(meetingData) {
   const query = {
     text: `
       INSERT INTO
@@ -17,14 +17,12 @@ async function createMeeting(meetingData) {
   return results.rows[0];
 }
 
-async function listMeetings() {
+async function listMeetings(page = 1, pageSize = 6) {
+  const offset = (page - 1) * pageSize;
+
   const query = {
-    text: `
-      SELECT
-        *
-      FROM
-        meetings
-    `,
+    text: "SELECT * FROM meetings LIMIT $1 OFFSET $2",
+    values: [pageSize, offset],
   };
 
   const results = await database.query(query);
@@ -32,6 +30,6 @@ async function listMeetings() {
 }
 
 export default {
-  createMeeting,
+  create,
   listMeetings,
 };

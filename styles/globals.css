@@ -1,6 +1,7 @@
 body {
-  /*background-color: #000060;*/
+  background-color: #000060;
   margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 header {
@@ -21,24 +22,28 @@ header nav li {
 }
 
 .button-link {
-  background-color: #007bff; /* cor de fundo azul */
+  background-color: #fff; /* cor de fundo azul */
   border: none; /* remova a borda padrão */
   border-radius: 5px; /* bordas arredondadas */
-  color: #fff; /* cor do texto branca */
+  color: #000; /* cor do texto branca */
   cursor: pointer; /* cursor de mão para indicar clicabilidade */
   display: inline-block;
   padding: 10px 20px;
   text-decoration: none; /* remova o sublinhado padrão */
 }
-
-.submit-button {
-  background-color: green;
+/* header-button */
+.logout-button {
+  background-color: #fff;
   border: none;
   border-radius: 5px;
-}
-
-.submit-button:hover {
-  background-color: #00b309;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  /* Adicione o mesmo tamanho de fonte e altura dos outros botões */
+  font-size: inherit;
+  height: inherit;
 }
 
 .ulStyle {
@@ -49,7 +54,7 @@ header nav li {
 }
 
 .liStyle {
-  background-color: #0000ff;
+  background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-sizing: border-box;
@@ -58,7 +63,7 @@ header nav li {
   width: 30%;
 }
 
-form {
+.teste {
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -70,13 +75,12 @@ form {
   width: 400px; /* Define uma largura fixa para o formulário */
 }
 
-form > * {
+.teste > * {
   margin-bottom: 10px; /* Espaçamento entre os elementos do formulário */
 }
 
-.form-container {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  min-height: calc(100vh - 100px); /* Ajuste conforme a altura do header e do footer */
+.teste-button {
+  background-color: red;
+  border: none;
+  border-radius: 5px;
 }

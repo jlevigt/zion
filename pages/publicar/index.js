@@ -22,27 +22,34 @@ function PostForm() {
     event.preventDefault();
 
     const day = dayRef.current.value;
-    const Time = timeRef.current.value;
+    const time = timeRef.current.value;
     const location = locationRef.current.value;
     const theme = themeRef.current.value;
 
-    const response = await fetch("/api/v1/meetings", {
-      method: "POST",
-      headers: {
-        auth: localStorage.getItem("auth"),
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        day: day,
-        time: Time,
-        location: location,
-        theme: theme,
-      }),
-    });
+    try {
+      const token = JSON.parse(localStorage.getItem("auth"));
 
-    if (response.status === 201) {
-      router.push("/");
+      const response = await fetch("/api/v1/meetings", {
+        method: "POST",
+        headers: {
+          auth: token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          day: day,
+          time: time,
+          location: location,
+          theme: theme,
+        }),
+      });
+
+      if (response.status === 201) {
+        return router.push("/encontros");
+      }
+
+      alert("Parece que houve um erro");
+    } catch (error) {
+      alert("Parece que houve um erro");
     }
   }
 

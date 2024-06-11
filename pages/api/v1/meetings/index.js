@@ -1,56 +1,50 @@
 import authentication from "models/authentication";
+import authorization from "models/authorization";
 import meeting from "models/meeting";
+import user from "models/user";
 
-export default async function meetingsHandler(request, response) {
-  // authentication
-  if (!request.headers.auth) {
-    return response.status(401).json({ msg: "token não foi enviado no header da request" });
-  }
-  try {
-    const token = request.headers.auth;
-    authentication.verifyJwt(token); // aplicar error handling
-  } catch (error) {
-    return response.status(401).json({ err: "Não possui autenticação" });
-  }
+export default async function Handler(request, response) {
+  // error handling
+
+  const verified = authentication.verifyJwt(request.headers.auth);
+  const findedUser = await user.findOneByEmail(verified.email);
 
   switch (request.method) {
     case "GET":
-      return meetingsGetHandler(response);
+      authorization.canRequest(findedUser, "read:meetings");
+
+      const page = request.query.page;
+
+      const meetingList = await meeting.listMeetings(page);
+
+      if (meetingList.length === 0) {
+        return response.status(404).json({ msg: "Recurso não encontrado" });
+      }
+
+      return response.status(200).json(meetingList);
+
     case "POST":
-      // authorization
-      return meetingsPostHandler(request, response);
+      authorization.canRequest(findedUser, "create:meeting");
+
+      const { day, time, location, theme } = request.body;
+
+      if (!day || !time || !location) {
+        throw new Error("Bad request");
+      }
+
+      const meetingData = {
+        day: day,
+        time: time,
+        location: location,
+        theme: theme,
+      };
+
+      const createdMeeting = await meeting.create(meetingData);
+
+      return response.status(201).json(createdMeeting);
+
     default:
       response.setHeader("Allow", ["GET", "POST"]);
       return response.status(405).end(`Method ${request.method} Not Allowed`);
   }
-}
-
-async function meetingsGetHandler(response) {
-  const meetingList = await meeting.listMeetings();
-  return response.status(200).json(meetingList);
-}
-
-async function meetingsPostHandler(request, response) {
-  const { day, time, location, theme } = request.body;
-
-  if (!day || !time || !location) {
-    return response.status(400).json({ error: "Bad request" });
-  }
-
-  const meetingData = {
-    day: day,
-    time: time,
-    location: location,
-    theme: theme,
-  };
-
-  let createdMeeting;
-  try {
-    createdMeeting = await meeting.createMeeting(meetingData);
-  } catch (error) {
-    console.log(error);
-    return response.status(400).json({ msg: "Bad request" });
-  }
-
-  return response.status(201).json(createdMeeting);
 }

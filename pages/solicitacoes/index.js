@@ -2,23 +2,23 @@ import { useState, useEffect } from "react";
 
 import Layout from "components/Layout";
 
-export default function Membros() {
+export default function Solicitacoes() {
   return (
     <Layout>
-      <UsersList />
+      <SolicitationsList />
     </Layout>
   );
 }
 
-function UsersList() {
-  const [users, setUsers] = useState([]);
+function SolicitationsList() {
+  const [solicitations, setSolicitations] = useState([]);
 
   useEffect(() => {
-    async function fetchusers() {
+    async function fetchsolicitations() {
       try {
         const token = JSON.parse(localStorage.getItem("auth"));
 
-        const response = await fetch("/api/v1/users", {
+        const response = await fetch("/api/v1/users/solicitations", {
           headers: {
             auth: token,
           },
@@ -26,8 +26,8 @@ function UsersList() {
 
         if (response.status == 200) {
           const responseBody = await response.json();
-
-          setUsers(responseBody);
+          console.log(responseBody);
+          setSolicitations(responseBody);
           return;
         }
 
@@ -37,21 +37,21 @@ function UsersList() {
       }
     }
 
-    fetchusers();
+    fetchsolicitations();
   }, []);
 
   return (
     <ul className="ulStyle">
-      {users.map((user) => (
-        <li className="liStyle" key={user.username}>
+      {solicitations.map((solicitation) => (
+        <li className="liStyle" key={solicitation.username}>
           <p>
-            <strong>Username:</strong> {user.username}
+            <strong>Username:</strong> {solicitation.username}
           </p>
           <p>
-            <strong>Role:</strong> {user.role}
+            <strong>Role:</strong> {solicitation.role}
           </p>
           <p>
-            <strong>Criado em:</strong> {new Date(user.created_at).toLocaleDateString("pt-BR")}
+            <strong>Criado em:</strong> {new Date(solicitation.created_at).toLocaleDateString("pt-BR")}
           </p>
         </li>
       ))}

@@ -21,7 +21,7 @@ exports.up = (pgm) => {
     },
     role: {
       type: "VARCHAR(20)",
-      default: "in_solicitation",
+      default: "waiting",
     },
     created_at: {
       type: "TIMESTAMP",
