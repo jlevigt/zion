@@ -39,7 +39,8 @@ function UserProfile() {
         return router.push("/login");
       }
 
-      alert("Alguma coisa deu errado");
+      const responseBody = await response.json();
+      alert(responseBody.message);
     } catch (error) {
       alert("Alguma coisa deu errado");
     }

@@ -33,7 +33,8 @@ function SolicitationsList() {
         return;
       }
 
-      alert("Alguma coisa deu errado");
+      const responseBody = await response.json();
+      alert(responseBody.message);
     } catch {
       alert("Alguma coisa deu errado");
     }
@@ -60,7 +61,8 @@ function SolicitationsList() {
         return;
       }
 
-      alert("Alguma coisa deu errado");
+      const responseBody = await response.json();
+      alert(responseBody.message);
     } catch {
       alert("Alguma coisa deu errado");
     } finally {
@@ -88,7 +90,8 @@ function SolicitationsList() {
         return;
       }
 
-      alert("Alguma coisa deu errado");
+      const responseBody = await response.json();
+      alert(responseBody.message);
     } catch {
       alert("Alguma coisa deu errado");
     } finally {

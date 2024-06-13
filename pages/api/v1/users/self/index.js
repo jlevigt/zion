@@ -10,7 +10,7 @@ export default async function handler(request, response) {
 
     switch (request.method) {
       case "PATCH":
-        authorization.canRequest(findedUser, "update:self");
+        authorization.canRequest(findedUser, "update:user:self");
 
         const { newEmail, newUsername } = request.body;
 
@@ -24,13 +24,14 @@ export default async function handler(request, response) {
         return response.status(204).end();
 
       case "DELETE":
-        authorization.canRequest(findedUser, "delete:self");
+        authorization.canRequest(findedUser, "delete:user:self");
 
-        await user.deleteUser(findedUser.id);
+        await user.deleteUserByUsername(findedUser.username);
 
         return response.status(204).end();
 
       default:
+        response.setHeader("Allow", ["PATCH", "DELETE"]);
         return response.status(405).json({ error: "Method not allowed" });
     }
   } catch (err) {
