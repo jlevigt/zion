@@ -1,13 +1,8 @@
 import jwt from "jsonwebtoken";
 
-import user from "models/user";
-
 const EXPIRATION_IN_SECONDS = 60 * 60 * 24; // 1 dia
 
-async function createJwt(email) {
-  const findedUser = await user.findOneByEmail(email);
-  const role = findedUser.role;
-
+async function createJwt(email, role) {
   const payload = {
     email: email,
     role: role,
@@ -15,6 +10,7 @@ async function createJwt(email) {
   };
 
   const token = jwt.sign(payload, process.env.PRIVATE_KEY);
+
   return token;
 }
 

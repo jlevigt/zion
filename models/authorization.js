@@ -1,38 +1,31 @@
+import ForbiddenError from "errors/ForbiddenError";
+
 const roles = {
+  waiting: ["update:user:self", "delete:user:self"],
+  guest: ["update:user:self", "delete:user:self", "read:meeting:list"],
+  member: ["update:user:self", "delete:user:self", "read:meeting:list", "read:user:list"],
   leader: [
-    "read:users:list",
-    "update:user:role",
+    "update:user:self",
+    "delete:user:self",
+    "read:meeting:list",
+    "read:user:list",
     "create:meeting",
-    "read:meetings",
-    "update:self",
-    "delete:self",
-    "read:solicitations",
+    "read:solicitation:list",
+    "update:user:role",
+    "delete:user",
   ],
-  member: ["read:users:list", "read:meetings", "update:self", "delete:self"],
-  guest: ["read:meetings", "update:self", "delete:self"],
-  waiting: ["update:self", "delete:self"],
 };
 
 function canRequest(user, feature) {
   const userPermissions = roles[user.role];
 
   if (!userPermissions.includes(feature)) {
-    throw new Error("Unauthorized");
+    throw new ForbiddenError("Não possui permissão");
   }
 }
 
-function filterOutput(user, feature, output) {
+function filterOutput(feature, output) {
   let filteredOutputValues = {};
-
-  if (feature === "read:user") {
-    filteredOutputValues = {
-      id: output.id,
-      email: output.email,
-      username: output.username,
-      role: output.role,
-      created_at: output.created_at,
-    };
-  }
 
   if (feature === "read:user:list") {
     filteredOutputValues = output.map((user) => ({

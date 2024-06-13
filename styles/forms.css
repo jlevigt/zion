@@ -18,7 +18,7 @@ form > * {
   align-items: center;
   display: flex;
   justify-content: center;
-  min-height: calc(100vh - 100px); /* Ajuste conforme a altura do header e do footer */
+  min-height: calc(100vh - 150px); /* Ajuste conforme a altura do header e do footer */
 }
 
 .submit-button {

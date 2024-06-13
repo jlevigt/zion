@@ -1,0 +1,22 @@
+.tableStyle {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.tableStyle th {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.tableStyle td {
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+.tableStyle th {
+  background-color: #f2f2f2;
+}

@@ -12,7 +12,6 @@ header {
 header nav ul {
   display: flex; /* alinha os itens horizontalmente */
   list-style: none; /* remove as bolinhas */
-
   margin: 5px; /* remove a margem padrão */
   padding: 5px; /* remove o padding padrão */
 }
@@ -31,7 +30,7 @@ header nav li {
   padding: 10px 20px;
   text-decoration: none; /* remova o sublinhado padrão */
 }
-/* header-button */
+
 .logout-button {
   background-color: #fff;
   border: none;
@@ -41,29 +40,11 @@ header nav li {
   display: inline-block;
   padding: 10px 20px;
   text-decoration: none;
-  /* Adicione o mesmo tamanho de fonte e altura dos outros botões */
   font-size: inherit;
   height: inherit;
 }
 
-.ulStyle {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  list-style-type: none;
-}
-
-.liStyle {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-sizing: border-box;
-  margin: 10px;
-  padding: 20px;
-  width: 30%;
-}
-
-.teste {
+.centralized {
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -75,11 +56,11 @@ header nav li {
   width: 400px; /* Define uma largura fixa para o formulário */
 }
 
-.teste > * {
+.centralized > * {
   margin-bottom: 10px; /* Espaçamento entre os elementos do formulário */
 }
 
-.teste-button {
+.centralized-button {
   background-color: red;
   border: none;
   border-radius: 5px;

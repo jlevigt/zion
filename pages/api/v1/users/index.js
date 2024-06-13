@@ -1,42 +1,46 @@
-import authentication from "models/authentication";
-import authorization from "models/authorization";
-import user from "models/user";
+import authentication from "models/authentication.js";
+import authorization from "models/authorization.js";
+import user from "models/user.js";
+
+import errorHandler from "errors/errorHandler.js";
+import BadRequestError from "errors/BadRequestError.js";
 
 export default async function handler(request, response) {
-  // error handling
+  try {
+    switch (request.method) {
+      case "GET":
+        const verified = authentication.verifyJwt(request.headers.auth);
+        const findedUser = await user.findOneByEmail(verified.email);
 
-  switch (request.method) {
-    case "GET":
-      const verified = authentication.verifyJwt(request.headers.auth);
-      const findedUser = await user.findOneByEmail(verified.email);
+        authorization.canRequest(findedUser, "read:user:list");
 
-      authorization.canRequest(findedUser, "read:users:list");
+        const usersList = await user.findAll();
+        const secureUsersList = authorization.filterOutput("read:user:list", usersList);
 
-      const usersList = await user.findAll();
-      const secureUsersList = authorization.filterOutput(findedUser, "read:user:list", usersList);
+        return response.status(200).json(secureUsersList);
 
-      return response.status(200).json(secureUsersList);
+      case "POST":
+        const { username, email, password } = request.body;
 
-    case "POST":
-      const { username, email, password } = request.body;
+        if (!username || !email || !password) {
+          throw new BadRequestError("Um ou mais campos em branco");
+        }
 
-      if (!username || !email || !password) {
-        throw new Error("Bad request");
-      }
+        const userData = {
+          username: username,
+          email: email,
+          password: password,
+        };
 
-      const userData = {
-        username: username,
-        email: email,
-        password: password,
-      };
+        await user.create(userData);
 
-      const newUser = await user.create(userData);
-      const secureUserData = authorization.filterOutput(newUser, "read:user", newUser);
+        return response.status(201).end();
 
-      return response.status(201).json(secureUserData);
-
-    default:
-      response.setHeader("Allow", ["GET", "POST"]);
-      return response.status(405).end(`Method ${request.method} Not Allowed`);
+      default:
+        response.setHeader("Allow", ["GET", "POST"]);
+        return response.status(405).end(`Method ${request.method} Not Allowed`);
+    }
+  } catch (err) {
+    return errorHandler(err, response);
   }
 }

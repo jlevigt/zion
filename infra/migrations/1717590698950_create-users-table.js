@@ -6,12 +6,12 @@ exports.up = (pgm) => {
       default: pgm.func("gen_random_uuid()"),
     },
     username: {
-      type: "VARCHAR(60)",
+      type: "VARCHAR(30)",
       notNull: true,
       unique: true,
     },
     email: {
-      type: "VARCHAR(255)",
+      type: "VARCHAR(254)",
       notNull: true,
       unique: true,
     },
@@ -20,7 +20,8 @@ exports.up = (pgm) => {
       notNull: true,
     },
     role: {
-      type: "VARCHAR(20)",
+      type: "VARCHAR(10)",
+      notNull: true,
       default: "waiting",
     },
     created_at: {

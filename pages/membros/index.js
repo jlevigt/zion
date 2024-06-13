@@ -41,20 +41,23 @@ function UsersList() {
   }, []);
 
   return (
-    <ul className="ulStyle">
-      {users.map((user) => (
-        <li className="liStyle" key={user.username}>
-          <p>
-            <strong>Username:</strong> {user.username}
-          </p>
-          <p>
-            <strong>Role:</strong> {user.role}
-          </p>
-          <p>
-            <strong>Criado em:</strong> {new Date(user.created_at).toLocaleDateString("pt-BR")}
-          </p>
-        </li>
-      ))}
-    </ul>
+    <table className="tableStyle">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Permissão</th>
+          <th>Criado em</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user) => (
+          <tr key={user.username}>
+            <td>{user.username}</td>
+            <td>{user.role}</td>
+            <td>{new Date(user.created_at).toLocaleDateString("pt-BR")}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

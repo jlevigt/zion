@@ -1,6 +1,7 @@
-import Layout from "components/Layout";
 import { useRouter } from "next/router";
 import { useRef } from "react";
+
+import Layout from "components/Layout";
 
 export default function Publicar() {
   return (
@@ -47,7 +48,9 @@ function PostForm() {
         return router.push("/encontros");
       }
 
-      alert("Parece que houve um erro");
+      const responseBody = await response.json();
+      alert(responseBody.message);
+      return;
     } catch (error) {
       alert("Parece que houve um erro");
     }
@@ -57,13 +60,13 @@ function PostForm() {
     <form onSubmit={handleSubmit}>
       <h1>Publicar</h1>
 
-      <label>Dia</label>
+      <label>Dia *</label>
       <input ref={dayRef} type="date" lang="pt-BR"></input>
 
-      <label>Horário _ _:_ _</label>
+      <label>Horário *</label>
       <input ref={timeRef} type="time"></input>
 
-      <label>Lugar</label>
+      <label>Lugar *</label>
       <input ref={locationRef}></input>
 
       <label>Tema</label>

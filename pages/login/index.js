@@ -37,16 +37,21 @@ function LoginForm() {
 
       if (response.status == 201) {
         const responseBody = await response.json();
-        const userData = JSON.stringify(responseBody.user);
-        const token = JSON.stringify(responseBody.token);
+        const userData = responseBody.user;
+        const token = responseBody.token;
 
-        localStorage.setItem("user", userData);
-        localStorage.setItem("auth", token);
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("auth", JSON.stringify(token));
+
+        if (userData.role == "waiting") {
+          return router.push("/perfil");
+        }
 
         return router.push("/encontros");
       }
 
-      alert("Alguma coisa deu errado");
+      const responseBody = await response.json();
+      alert(responseBody.message);
     } catch {
       alert("Alguma coisa deu errado");
     }

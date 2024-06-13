@@ -2,6 +2,8 @@ import bcryptjs from "bcryptjs";
 
 import database from "infra/database.js";
 
+import BadRequestError from "errors/BadRequestError.js";
+
 const COST = 1;
 
 async function create(postedUserData) {
@@ -10,27 +12,12 @@ async function create(postedUserData) {
   await validateUniqueEmail(validUserData.email);
   validUserData.password = await bcryptjs.hash(validUserData.password, COST);
 
-  const newUser = await runInsertQuery(validUserData);
-  return newUser;
+  const query = {
+    text: "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
+    values: [validUserData.username, validUserData.email, validUserData.password],
+  };
 
-  async function runInsertQuery(validUserData) {
-    const query = {
-      text: `
-        INSERT INTO
-          users (username, email, password)
-        VALUES
-          ($1, $2, $3)
-        RETURNING
-          *
-        ;`,
-      values: [validUserData.username, validUserData.email, validUserData.password],
-    };
-
-    const results = await database.query(query);
-    const newUser = results.rows[0];
-
-    return newUser;
-  }
+  await database.query(query);
 }
 
 async function findAll() {
@@ -81,10 +68,10 @@ async function updateUsername(userId, newUsername) {
   await database.query(query);
 }
 
-async function deleteUser(userId) {
+async function deleteUserByUsername(username) {
   const query = {
-    text: "DELETE FROM users WHERE id = $1",
-    values: [userId],
+    text: "DELETE FROM users WHERE username = $1",
+    values: [username],
   };
 
   await database.query(query);
@@ -100,9 +87,11 @@ async function listSolicitations() {
 }
 
 function validatePostSchema(postedUserData) {
-  // Validar tamanho de username, de email e de password
-  const cleanValues = postedUserData;
-  return cleanValues;
+  if (postedUserData.password.length < 6) {
+    throw new BadRequestError("A senha deve ter no mínimo 6 caracteres");
+  }
+
+  return postedUserData;
 }
 
 async function validateUniqueUsername(username) {
@@ -114,8 +103,10 @@ async function validateUniqueUsername(username) {
   const results = await database.query(query);
 
   if (results.rowCount > 0) {
-    // throw new Error
+    throw new BadRequestError("O nome de usuário já está em uso");
   }
+
+  return;
 }
 
 async function validateUniqueEmail(email) {
@@ -127,8 +118,10 @@ async function validateUniqueEmail(email) {
   const results = await database.query(query);
 
   if (results.rowCount > 0) {
-    // throw new Error
+    throw new BadRequestError("O email já está em uso");
   }
+
+  return;
 }
 
 export default Object.freeze({
@@ -138,6 +131,6 @@ export default Object.freeze({
   updateRole,
   updateEmail,
   updateUsername,
-  deleteUser,
+  deleteUserByUsername,
   listSolicitations,
 });

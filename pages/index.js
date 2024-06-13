@@ -11,8 +11,7 @@ export default function Home() {
       return router.push("/encontros");
     }
 
-    router.push("/login");
-    return;
+    return router.push("/login");
   }, []);
 
   return;

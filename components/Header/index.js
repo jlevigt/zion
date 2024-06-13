@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 export default function Header() {
   const router = useRouter();
 
-  const [role, setRole] = useState("guest");
+  const [role, setRole] = useState("waiting");
+
   const links = {
     leader: [
       { href: "/encontros", label: "Encontros" },
@@ -27,7 +28,10 @@ export default function Header() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    setRole(user.role);
+
+    if (user) {
+      setRole(user.role);
+    }
   }, []);
 
   if (!role) {

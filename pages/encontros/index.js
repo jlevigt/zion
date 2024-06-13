@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 import Layout from "components/Layout";
@@ -11,6 +12,8 @@ export default function Posts() {
 }
 
 function MeetingsList() {
+  const router = useRouter();
+
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
 
@@ -25,13 +28,23 @@ function MeetingsList() {
           },
         });
 
-        if (response.status == 200) {
-          const data = await response.json();
-          setPosts(data);
-          return;
-        }
+        switch (response.status) {
+          case 200:
+            const data = await response.json();
+            setPosts(data);
+            return;
 
-        alert("Alguma coisa deu errado");
+          case 204:
+            return alert("Nenhuma publicação foi encontrada nessa página");
+
+          case 401:
+            return router.push("login");
+
+          case 403:
+            const responseBody = await response.json();
+            alert(responseBody.message);
+            return;
+        }
       } catch (error) {
         alert("Alguma coisa deu errado");
       }
@@ -44,8 +57,15 @@ function MeetingsList() {
     setPage((prevPage) => prevPage + 1);
   };
 
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage((prevPage) => prevPage + -1);
+      return;
+    }
+  };
+
   return (
-    <div>
+    <div style={{ minHeight: 500 }}>
       <ul className="ulStyle">
         {posts.map((post) => (
           <li className="liStyle" key={post.id}>
@@ -65,7 +85,11 @@ function MeetingsList() {
           </li>
         ))}
       </ul>
-      <button onClick={handleNextPage}>&#62;</button>
+      <div style={{ alignItems: "center", display: "flex", justifyContent: "center" }}>
+        <button onClick={handlePreviousPage}>&#60;</button>
+        <span style={{ color: "white" }}>{page}</span>
+        <button onClick={handleNextPage}>&#62;</button>
+      </div>
     </div>
   );
 }

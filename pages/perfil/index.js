@@ -50,7 +50,7 @@ function UserProfile() {
   }
 
   return (
-    <div className="teste">
+    <div className="centralized">
       <h1 style={{ color: "black" }}>Perfil</h1>
 
       <p>
@@ -60,14 +60,14 @@ function UserProfile() {
         <strong>Email:</strong> {user.email}
       </p>
       <p>
-        <strong>Função:</strong> {user.role}
+        <strong>Permissão:</strong> {user.role}
       </p>
 
       <a href="/perfil/atualizar" style={{ color: "blue" }}>
         Atualizar perfil
       </a>
 
-      <button onClick={handleDeleteProfile} className="teste-button">
+      <button onClick={handleDeleteProfile} className="centralized-button">
         Deletar Perfil
       </button>
     </div>
