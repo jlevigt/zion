@@ -56,6 +56,7 @@ function MeetingsList() {
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
+    return;
   };
 
   const handlePreviousPage = () => {
