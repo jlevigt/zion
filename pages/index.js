@@ -8,11 +8,12 @@ export default function Home() {
     const token = localStorage.getItem("auth");
 
     if (token) {
-      return router.push("/encontros");
+      router.push("/encontros");
+      return;
     }
 
-    return router.push("/login");
+    router.push("/login");
   }, []);
 
-  return;
+  return <div>Olá mundo</div>;
 }

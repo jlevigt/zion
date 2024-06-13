@@ -43,6 +43,7 @@ function MeetingsList() {
           case 403:
             const responseBody = await response.json();
             alert(responseBody.message);
+            router.push("perfil");
             return;
         }
       } catch (error) {
