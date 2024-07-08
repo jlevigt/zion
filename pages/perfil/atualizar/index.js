@@ -26,6 +26,7 @@ function UpdateProfileForm() {
     const email = emailRef.current.value;
 
     try {
+      console.log(username, email);
       const response = await fetch("/api/v1/users/self", {
         method: "PATCH",
         headers: {
@@ -33,12 +34,12 @@ function UpdateProfileForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
-          email: email,
+          newUsername: username,
+          newEmail: email,
         }),
       });
 
-      if (response.status === 200) {
+      if (response.status === 204) {
         return router.push("/login");
       }
 

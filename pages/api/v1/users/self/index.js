@@ -31,7 +31,6 @@ export default async function handler(request, response) {
         return response.status(204).end();
 
       default:
-        response.setHeader("Allow", ["PATCH", "DELETE"]);
         return response.status(405).json({ error: "Method not allowed" });
     }
   } catch (err) {
